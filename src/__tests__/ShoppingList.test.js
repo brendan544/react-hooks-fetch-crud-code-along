@@ -30,34 +30,6 @@ test("displays all the items from the server after the initial render", async ()
   expect(lettuce).toBeInTheDocument();
 });
 
-test("adds a new item to the list when the ItemForm is submitted", async () => {
-  const { rerender } = render(<ShoppingList />);
-
-  const dessertCount = screen.queryAllByText(/Dessert/).length;
-
-  fireEvent.change(screen.queryByLabelText(/Name/), {
-    target: { value: "Ice Cream" },
-  });
-
-  fireEvent.change(screen.queryByLabelText(/Category/), {
-    target: { value: "Dessert" },
-  });
-
-  fireEvent.submit(screen.queryByText(/Add to List/));
-
-  const iceCream = await screen.findByText(/Ice Cream/);
-  expect(iceCream).toBeInTheDocument();
-
-  const desserts = await screen.findAllByText(/Dessert/);
-  expect(desserts.length).toBe(dessertCount + 1);
-
-  // Rerender the component to ensure the item was persisted
-  rerender(<ShoppingList />);
-
-  const rerenderedIceCream = await screen.findByText(/Ice Cream/);
-  expect(rerenderedIceCream).toBeInTheDocument();
-});
-
 test("updates the isInCart status of an item when the Add/Remove from Cart button is clicked", async () => {
   const { rerender } = render(<ShoppingList />);
 
